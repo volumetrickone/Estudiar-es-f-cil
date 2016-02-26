@@ -2,9 +2,10 @@
 
 ### Información sobre el proyecto:
  Se trata de un proyecto que estamos realizando durante el HackForGood 2016 en Barcelona.
-Hemos escogido el reto Apprende dado que tenemos interés en contribuir a mejorar los hábitos de estudio, el dinamismo y la eficiencia de los niños fuera de la escuela, apostando además por la integración de niños con problemas motrices que les impiden utilizar teclado y ratón.
+Hemos escogido el reto Apprende dado que tenemos interés en contribuir a mejorar los hábitos de estudio, el dinamismo y la eficiencia de los niños fuera de la escuela. 
+Además, hemos apostado por mejorar la integración de niños con problemas motrices que les impiden utilizar teclado y ratón.
 ###Objetivo:
-El objetivo es crear una plataforma en la que los niños disfruten aprendiendo, de modo que estudien sin hacer un gran esfuerzo.
+El objetivo es crear una plataforma inclusiva en la que los niños disfruten aprendiendo, de modo que estudien sin hacer un gran esfuerzo. 
 ### Características:
 Las preguntas se corrigen automáticamente y, gracias a un algoritmo que hemos diseñado, nos aseguramos que los niños acabaran el cuestionario cuando realmente hayan aprendido el temário. 
 Esto lo conseguimos dándole más importáncia a las preguntas falladas y a las pendientes de responder a la hora de escoger la siguiente pregunta que se le mostrará al alumno (aleatoriedad controlada).
