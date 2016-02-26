@@ -1,0 +1,13 @@
+body { padding-top: 50px; };
+div.jumbotron.fondo-portada{
+	padding: 0px;
+}
+body{
+    background-color: #525252;
+}
+
+#crear_cuestionario{
+	position: absolute;
+	right: 20px;
+	top: 20px;
+}
