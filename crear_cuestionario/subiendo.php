@@ -53,7 +53,7 @@ $stmt->execute();
 
 
 if($accion == 2 ){
-header('Location:http://localhost:8888/crear_cuestionario/asingar_grupo.php');
+header('Location:http://localhost:8888/crear_cuestionario/grupo.php');
 }
 else{
 header('Location:http://localhost:8888/crear_cuestionario');

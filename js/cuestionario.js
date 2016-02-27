@@ -4,17 +4,24 @@ jQuery(document).ready(function($) {
 	$('.responder').on('click', function(event) {
 		event.preventDefault();
 		/* Act on the event */
+		var seleccionado = $(this).val();
 		$(this).addClass('seleccionada');
 		var preg = $('#cuestionario').attr('name');
 		var res = $(this).attr('id');
+		alert(res);
 
-		enviarRespuesta(preg,res, function(respuesta) {
-       		if (respuesta[0] == 0) { //INCORRECTA
+		enviarRespuesta(res, function(respuesta) {
+			alert(respuesta);
+			//alert(respuesta[1]);
+       		if (respuesta != seleccionado) { //INCORRECTA
+       			alert("respuesta incorrecta");
        			$('.seleccionada').addClass('btn-danger');
-       			var idcorrecta = '#'+respuesta[1];
-       			$(idcorrecta).addClass('btn-success');
+       			var correcta = $("input[value='"+respuesta+"']");
+       			alert(correcta);
+       			correcta.addClass('btn-success');
        		};
-       		if (respuesta[0] == 1) { //CORRECTA
+       		if (respuesta == seleccionado) { //CORRECTA
+       			alert("respuesta correcta");
        			$('.seleccionada').addClass('btn-success');
        		};
        		$(document).click(function() {
@@ -50,11 +57,11 @@ jQuery(document).ready(function($) {
 
 //FUNCTIONS
 
-function enviarRespuesta(preg,resp,callback) {
+function enviarRespuesta(resp,callback) {
 			$.ajax({
 		    url: '/cuestionario/cuestionario.php',
 		    type: 'post',
-		    data: { "pregunta": preg, "respuesta": resp},
+		    data: {"respuesta": resp},
 		    success: function(response) { 
 		    	callback(response); 
 		    }

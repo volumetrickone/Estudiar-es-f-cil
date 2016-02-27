@@ -1,11 +1,16 @@
 <?php
 session_start();
 
-$user_id = $_SESSION['user_'];
+$user_id = $_SESSION['user_id'];
 $usuario = $_SESSION['usuario'];
-$conjunto = $_SESSION['conjunto'];
-//$grupo = $_GET['grupo'];
-$antigua= $_SESSION['antigua'];
+if(!empty($_POST['conjunto'])){
+$conjunto = $_POST['conjunto']; // index.php alumno, cuando apriete una colección de preguntas tendría que tener esta variable escondida en un hidden
+$_SESSION['conjunto'] = $conjunto;
+}
+else{
+	$conjunto = $_SESSION['conjunto'];
+}
+$antigua = $_SESSION['antigua'];
 
 $antigua = trim($antigua);
 if(empty($antigua)){
@@ -44,11 +49,20 @@ $contador = $result["cnt"];
 catch(PDOException $e) {
 	echo "Error: " . $e->getMessage();
 }*/
-echo "$conjunto";
-echo "$antigua";
 $conn = new PDO('mysql:host=localhost; dbname=estudiaresfacil;charset=utf8', 'estudiaresfacil' , 'UPChack2016');
 $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+try{
+$stmt = $conn ->prepare("SELECT problema FROM problema  WHERE alumno = :alumno");
+$stmt->bindValue(':alumno', $user_id);
+$stmt->execute();
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
+$problema = $result['problema'];
+}
+catch(PDOException $e) {
+	echo "Error: " . $e->getMessage();
+}
+
 try{
 $stmt = $conn ->prepare(" SELECT id FROM preguntas WHERE conjunto = :conjunto AND pregunta != :antigua ORDER BY RAND() LIMIT 1");
 $stmt->bindValue(':conjunto', $conjunto);
@@ -60,6 +74,7 @@ $sinresponder = $result["id"];
 catch(PDOException $e) {
 	echo "Error: " . $e->getMessage();
 }
+
 echo "$sinresponder";
 try{
 $stmt = $conn ->prepare("SELECT pregunta FROM respondidas WHERE conjunto = :conjunto AND alumno = :user_id AND respuesta = '1' AND pregunta != :antigua ORDER BY RAND() LIMIT 1");
@@ -108,7 +123,8 @@ else if(!empty($preguntasarray[3])){
 	$_SESSION['antigua'] = $preguntasarray[3];
 	$seleccionada = $preguntasarray[3];
 }
-echo "$seleccionada";
+$_SESSION['seleccionada'] = $seleccionada;
+
 try{
 $stmt = $conn ->prepare("SELECT pregunta FROM preguntas WHERE conjunto = :conjunto AND id = :seleccionada ");
 $stmt->bindValue(':seleccionada', $seleccionada);
@@ -158,7 +174,7 @@ catch(PDOException $e) {
 }
 echo "1";
 try{
-$stmt = $conn ->prepare("SELECT `correct` FROM preguntas WHERE conjunto = :conjunto AND id = :seleccionada ");
+$stmt = $conn ->prepare("SELECT correct FROM preguntas WHERE conjunto = :conjunto AND id = :seleccionada ");
 $stmt->bindValue(':seleccionada', $seleccionada);
 $stmt->bindValue(':conjunto', $conjunto);
 $stmt->execute();
@@ -189,11 +205,13 @@ catch(PDOException $e) {
 	echo "Error: " . $e->getMessage();
 }
 
+
+
 $respuestasarray = array($respuesta4,$respuesta3,$respuesta2,$respuesta1);
 
 shuffle($respuestasarray);
 
-echo "$respuesta4";
+//echo "$respuesta4";
 //$sinresponder = SELECT id FROM preguntas WHERE conjunto = :conjunto AND id != :antigua  ORDER BY RAND() LIMIT 1;
 
 //$correctas = SELECT pregunta FROM respondidas WHERE conjunto = :conjunto AND alumno = :user_id AND respuesta = '1' AND pregunta != :antigua ORDER BY RAND() LIMIT 1
@@ -209,10 +227,11 @@ $respuesta2 = SELECT resp2 FROM preguntas WHERE conjunto = :conjunto AND id = :s
 $respuesta3 = SELECT resp3 FROM preguntas WHERE conjunto = :conjunto AND id = :seleccionada ;
 $respuesta4 = SELECT correct FROM preguntas WHERE conjunto = :conjunto AND id = :seleccionada ;
 */
-
-
-
-
+/*$respuestasarray['0'] = trim($respuestasarray['0']);
+$respuestasarray['1']= trim($respuestasarray['1']);
+$respuestasarray['2']= trim($respuestasarray['2']);
+$respuestasarray['3']= trim($respuestasarray['0']);
+*/
 
 
 
@@ -285,16 +304,16 @@ $respuesta4 = SELECT correct FROM preguntas WHERE conjunto = :conjunto AND id = 
 						 			<div class="panel-body">
 						    		<form role="form">
 						    			<div class="form-group" >
-						    				<input type="button" value="<?php echo "$respuestasarray[0]"; ?>" class="btn btn-info btn-block responder" name="respuesta" id="p1">
+						    				<input type="button" value="<?php echo "$respuestasarray[0]"; ?>" class="btn btn-info btn-block responder" name="respuesta" id="<?php echo "$respuestasarray[0]"; ?>">
 						    			</div>
 										<div class="form-group">
-				    						<input type="button" value="<?php echo "$respuestasarray[1]"; ?>" class="btn btn-info btn-block responder" name="respuesta" id="p2">
+				    						<input type="button" value="<?php echo "$respuestasarray[1]"; ?>" class="btn btn-info btn-block responder" name="respuesta" id="<?php echo "$respuestasarray[1]"; ?>">
 				    					</div>
 				    					<div class="form-group">
-				    						<input type="button" value="<?php echo "$respuestasarray[2]"; ?>" class="btn btn-info btn-block responder" name="respuesta" id="p3">
+				    						<input type="button" value="<?php echo "$respuestasarray[2]"; ?>" class="btn btn-info btn-block responder" name="respuesta" id="<?php echo "$respuestasarray[2]"; ?>">
 				    					</div>
 				    					<div class="form-group">
-				    						<input type="button" value="<?php echo "$respuestasarray[3]"; ?>" class="btn btn-info btn-block responder" name="respuesta" id="p4">
+				    						<input type="button" value="<?php echo "$respuestasarray[3]"; ?>" class="btn btn-info btn-block responder" name="respuesta" id="<?php echo "$respuestasarray[3]"; ?>">
 				    					</div>
 				    					<div class="form-group" style="height: 30px; ; margin-top: 40px; margin-bottom: 10px;" id="progreso">
 
@@ -315,5 +334,61 @@ $respuesta4 = SELECT correct FROM preguntas WHERE conjunto = :conjunto AND id = 
 		<script src="/js/bootstrap.min.js"></script>
 		<script src="/js/cuestionario.js"></script>
 		<script src="/js/progressbar.min.js"></script>
+<?php if($problema == 1){ ?>
+		<script type="text/javascript">
+            var correcto = false;
+            if (!('webkitSpeechRecognition' in window)) {
+                //handle error stuff here...
+            } else {
+                var recognition = new webkitSpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = true;                recognition.start();                var final_transcript = '';                recognition.onresult = function (event) {
+                    console.log(JSON.stringify(event.results));
+                    var interim_transcript = '';
+                    if (typeof (event.results) == 'undefined') {
+                        recognition.onend = null;
+                        recognition.stop();
+                        upgrade();
+                        return;
+                    }
+                    for (var i = event.resultIndex; i < event.results.length; ++i) {
+                        if (event.results[i].isFinal) {
+                            final_transcript += event.results[i][0].transcript;
+                        } else {
+                            interim_transcript += event.results[i][0].transcript;
+                        }
+                    }
+                        if (final_transcript == "1" || final_transcript == "uno") {
+                            recognition.stop();
+                            correcto = true;
+                            alert("No es correcto 1!");
+                        };
+                        if (final_transcript == "2" || final_transcript == "dos") {
+                            recognition.stop();
+                            correcto = true;
+                            alert("No es correcto 2!");
+                        };
+                        if (final_transcript == "3" || final_transcript == "tres") {
+                            recognition.stop();
+                            correcto = true;
+                            alert("Correcto!");
+                        };
+                        if ((final_transcript == "4") || (final_transcript == "cuatro")) {
+                            recognition.stop();
+                            correcto = true;
+                            alert("No es correcto 4!");
+                        };
+                };
+
+                recognition.onend = function () {
+                    if (correcto == false) {
+                        recognition.start();
+                    }
+                    else {
+                        recognition.stop();
+                    }
+                }            }
+        </script>
+				<?php } ?>
 	</body>
 </html>

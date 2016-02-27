@@ -3,16 +3,30 @@
 $nombregrupo = $_POST['nombrgrupo'] ;
 $user_id = $_SESSION['user_id'];
 $profesor = $user_id;
-
+*/
 
 session_start();
 
-$user_id = 1;
+$user_id = $_SESSION['user_id'];
 $profesor = $user_id;
-$nombregrupo = $_SESSION['nombreconjunto'];
-*/
+$nombreconjunto = $_SESSION['nombreconjunto'];
 
-$nombregrupo = "3o Naturales";
+$conn = new PDO('mysql:host=localhost; dbname=estudiaresfacil;charset=utf8', 'estudiaresfacil' , 'UPChack2016');
+$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+
+try{
+$stmt = $conn ->prepare("SELECT nombre FROM grupos WHERE profesor = :profesor");
+$stmt->bindValue(':profesor', $profesor);
+$stmt->execute();
+$grupo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+catch(PDOException $e) {
+	echo "Error: " . $e->getMessage();
+}
+
+
 
 ?>
 <html lang="en">
@@ -70,14 +84,14 @@ $nombregrupo = "3o Naturales";
 
 		<!-- CONTENIDO -->
 		<!-- FORMULARIO CREAR GRUPO -->
-		<form action="/crear_grupo/crear_grupo.php" method="POST" role="form" id="crear_grupo" style="display: none;">
+		<form action="/crear_cuestionario/asignar_grupo.php" method="POST" role="form" id="crear_grupo" style="display: none;">
 			<div class="container-registro">
 				<div class="container vertical-center">
 			        <div class="row centered-form">
 			        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
 			        	<div class="panel panel-default">
 			        		<div class="panel-heading">
-						    		<h3 class="panel-title" style="text-align: center;"><?php echo "$nombregrupo";?></h3>
+						    		<h3 class="panel-title" style="text-align: center;"><?php echo "$nombreconjunto";?></h3>
 						 			</div>
 						 			<div class="panel-body">
 						    		<form role="form">
@@ -85,12 +99,13 @@ $nombregrupo = "3o Naturales";
 							    			<div class="col-md-4">
 							    			</div>
 							    			<div class="col-md-4">
-							    				<div class="radio" style="margin-bottom: 20px;">
-											      	<label><input type="radio" name="optradio">3o - Naturales</label>
-											    </div>
-											    <div class="radio" style="margin-bottom: 20px;">
-											      	<label><input type="radio" name="optradio">4o - Sociales</label>
-											    </div>
+
+													<?php foreach ($grupo as $key) {?>
+														<div class="radio" style="margin-bottom: 20px;">
+												      	<label><input type="radio" value="<?php echo $key['nombre']; ?>" name="optradio"><?php echo $key['nombre']; ?> </label>
+												    </div>
+													<?php }  ?>
+
 							    			</div>
 							    			<div class="col-md-4">
 							    			</div>
@@ -106,7 +121,7 @@ $nombregrupo = "3o Naturales";
 						    				<div class="col-sm-3 col-md-3">
 						    				</div>
 						    			</div>
-										<input type="hidden" name = "accion" value="1"> 
+										<input type="hidden" name = "accion" value="1">
 						    		</form>
 						    	</div>
 				    		</div>

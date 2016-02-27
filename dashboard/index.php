@@ -1,10 +1,10 @@
 <?php
-/*
+session_start();
+
 $user_id = $_SESSION['user_id'];
 $profesor = $user_id;
-*/
-$user_id = 1;
-$profesor = $user_id;
+
+
 $conn = new PDO('mysql:host=localhost; dbname=estudiaresfacil;charset=utf8', 'estudiaresfacil' , 'UPChack2016');
 $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -198,7 +198,7 @@ catch(PDOException $e) {
 
 				<!-- Sempre al final posar aquest div per crear nous cuestionaris -->
 				<div class="container" style="margin-bottom: 10px;">
-					<form action="/crear_grupo" id="form-crear-grupo" method="POST" role="form">
+					<form action="/crear_grupo/prueba.php" id="form-crear-grupo" method="POST" role="form">
 						<input type="button" id="boton-crear-grupo" value="Crear nuevo grupo" class="btn btn-block btn-success" style="text-align: center;">
 					</form>
 				</div>
