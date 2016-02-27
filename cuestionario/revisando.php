@@ -8,8 +8,6 @@ $conjunto = $_SESSION['conjunto'];
 $respuesta = trim($respuesta);
 $conjunto = trim($conjunto);
 
-return $respuesta;
-
 
 $conn = new PDO('mysql:host=localhost; dbname=estudiaresfacil;charset=utf8', 'estudiaresfacil' , 'UPChack2016');
 $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);

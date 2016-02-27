@@ -10,7 +10,7 @@ $profesor = $user_id;
 
 
 ?>
-<?php echo $nombregrupo;?>
+<?php echo "$nombregrupo";?>
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
@@ -78,53 +78,81 @@ $profesor = $user_id;
 						 			<div class="panel-body">
 						    		<form role="form">
 						    			<div class="row">
-						    				<div class="col-xs-6 col-sm-6 col-md-6">
+						    				<div class="col-xs-4 col-sm-4 col-md-4">
 						    					<div class="form-group">
 						                			<input type="text" name="alumno1" id="info-alumno" class="form-control input-md" placeholder="Nombre del alumno">
 						    					</div>
 						    				</div>
-						    				<div class="col-xs-6 col-sm-6 col-md-6">
+						    				<div class="col-xs-4 col-sm-4 col-md-4">
 						    					<div class="form-group">
 						    						<input type="email" name="email1" id="info-alumno" class="form-control input-md" placeholder="nombre@ejemplo.edu">
 						    					</div>
 						    				</div>
+						    				<div class="col-xs-4 col-sm-4 col-md-4">
+						    					<div class="form-group">
+						    						<div class="checkbox">
+  														<label><input type="checkbox" value="1" name="problema1">Movilidad reducida</label>
+													</div>
+						    					</div>
+						    				</div>
 						    			</div>
 						    			<hr>
 						    			<div class="row">
-						    				<div class="col-xs-6 col-sm-6 col-md-6">
+						    				<div class="col-xs-4 col-sm-4 col-md-4">
 						    					<div class="form-group">
 						                			<input type="text" name="alumno2" id="info-alumno" class="form-control input-md" placeholder="Nombre del alumno">
 						    					</div>
 						    				</div>
-						    				<div class="col-xs-6 col-sm-6 col-md-6">
+						    				<div class="col-xs-4 col-sm-4 col-md-4">
 						    					<div class="form-group">
 						    						<input type="email" name="email2" id="info-alumno" class="form-control input-md" placeholder="nombre@ejemplo.edu">
 						    					</div>
 						    				</div>
+						    				<div class="col-xs-4 col-sm-4 col-md-4">
+						    					<div class="form-group">
+						    						<div class="checkbox">
+  														<label><input type="checkbox" value="1" name="problema2">Movilidad reducida</label>
+													</div>
+						    					</div>
+						    				</div>
 						    			</div>
 						    			<hr>
 						    			<div class="row">
-						    				<div class="col-xs-6 col-sm-6 col-md-6">
+						    				<div class="col-xs-4 col-sm-4 col-md-4">
 						    					<div class="form-group">
 						                			<input type="text" name="alumno3" id="info-alumno" class="form-control input-md" placeholder="Nombre del alumno">
 						    					</div>
 						    				</div>
-						    				<div class="col-xs-6 col-sm-6 col-md-6">
+						    				<div class="col-xs-4 col-sm-4 col-md-4">
 						    					<div class="form-group">
 						    						<input type="email" name="email3" id="info-alumno" class="form-control input-md" placeholder="nombre@ejemplo.edu">
+						    					</div>
+						    				</div>
+						    				<div class="col-xs-4 col-sm-4 col-md-4">
+						    					<div class="form-group">
+						    						<div class="checkbox">
+  														<label><input type="checkbox" value="1" name="problema3">Movilidad reducida</label>
+													</div>
 						    					</div>
 						    				</div>
 						    			</div>
 						    			<hr>
 						    			<div class="row">
-						    				<div class="col-xs-6 col-sm-6 col-md-6">
+						    				<div class="col-xs-4 col-sm-4 col-md-4">
 						    					<div class="form-group">
 						                			<input type="text" name="alumno4" id="info-alumno" class="form-control input-md" placeholder="Nombre del alumno">
 						    					</div>
 						    				</div>
-						    				<div class="col-xs-6 col-sm-6 col-md-6">
+						    				<div class="col-xs-4 col-sm-4 col-md-4">
 						    					<div class="form-group">
 						    						<input type="email" name="email4" id="info-alumno" class="form-control input-md" placeholder="nombre@ejemplo.edu">
+						    					</div>
+						    				</div>
+						    				<div class="col-xs-4 col-sm-4 col-md-4">
+						    					<div class="form-group">
+						    						<div class="checkbox">
+  														<label><input type="checkbox" value="1" name="problema1">Movilidad reducida</label>
+													</div>
 						    					</div>
 						    				</div>
 						    			</div>

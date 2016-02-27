@@ -10,10 +10,12 @@ $_SESSION['conjunto'] = $conjunto;
 else{
 	$conjunto = $_SESSION['conjunto'];
 }
+if(!empty($_SESSION['antigua'])){
 $antigua = $_SESSION['antigua'];
 
 $antigua = trim($antigua);
-if(empty($antigua)){
+}
+else{
 	$antigua = 10000000;
 }
 
@@ -23,7 +25,7 @@ $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 try{
 $stmt = $conn ->prepare("SELECT 'alumno' FROM grupos WHERE :idusuario IN (alumno1 , alumno2 , alumno3 , alumno4 , alumno5) AND :");
-$stmt->bindValue(':seleccionado', $mail);
+$stmt->bindValue(':res', $mail);
 $stmt->execute();
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 $confirmacion_conjunto = $result["conjunto"];
@@ -41,7 +43,7 @@ $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 try{
 $stmt = $conn ->prepare("SELECT COUNT(*) as 'cnt' FROM preguntas  WHERE conjunto = :conjunto");
-$stmt->bindValue(':seleccionado', $mail);
+$stmt->bindValue(':res', $mail);
 $stmt->execute();
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 $contador = $result["cnt"];
@@ -304,16 +306,16 @@ $respuestasarray['3']= trim($respuestasarray['0']);
 						 			<div class="panel-body">
 						    		<form role="form">
 						    			<div class="form-group" >
-						    				<input type="button" value="<?php echo "$respuestasarray[0]"; ?>" class="btn btn-info btn-block responder" name="respuesta" id="<?php echo "$respuestasarray[0]"; ?>">
+						    				<input type="button" value="1 - <?php echo "$respuestasarray[0]"; ?>" class="btn btn-info btn-block responder" name="respuesta" id="<?php echo "$respuestasarray[0]"; ?>">
 						    			</div>
 										<div class="form-group">
-				    						<input type="button" value="<?php echo "$respuestasarray[1]"; ?>" class="btn btn-info btn-block responder" name="respuesta" id="<?php echo "$respuestasarray[1]"; ?>">
+				    						<input type="button" value="2 - <?php echo "$respuestasarray[1]"; ?>" class="btn btn-info btn-block responder" name="respuesta" id="<?php echo "$respuestasarray[1]"; ?>">
 				    					</div>
 				    					<div class="form-group">
-				    						<input type="button" value="<?php echo "$respuestasarray[2]"; ?>" class="btn btn-info btn-block responder" name="respuesta" id="<?php echo "$respuestasarray[2]"; ?>">
+				    						<input type="button" value="3 - <?php echo "$respuestasarray[2]"; ?>" class="btn btn-info btn-block responder" name="respuesta" id="<?php echo "$respuestasarray[2]"; ?>">
 				    					</div>
 				    					<div class="form-group">
-				    						<input type="button" value="<?php echo "$respuestasarray[3]"; ?>" class="btn btn-info btn-block responder" name="respuesta" id="<?php echo "$respuestasarray[3]"; ?>">
+				    						<input type="button" value="4 - <?php echo "$respuestasarray[3]"; ?>" class="btn btn-info btn-block responder" name="respuesta" id="<?php echo "$respuestasarray[3]"; ?>">
 				    					</div>
 				    					<div class="form-group" style="height: 30px; ; margin-top: 40px; margin-bottom: 10px;" id="progreso">
 
@@ -336,6 +338,14 @@ $respuestasarray['3']= trim($respuestasarray['0']);
 		<script src="/js/progressbar.min.js"></script>
 <?php if($problema == 1){ ?>
 		<script type="text/javascript">
+			var primero = $('.responder').first();
+			//alert(primero.val());
+			var segundo = primero.parent().next().find('.responder');
+			//alert(segundo.val());
+			var tercero = primero.parent().next().next().find('.responder');
+			//alert(tercero.val());
+			var cuarto = $('.responder').last();
+			//alert(cuarto.val());
             var correcto = false;
             if (!('webkitSpeechRecognition' in window)) {
                 //handle error stuff here...
@@ -361,22 +371,127 @@ $respuestasarray['3']= trim($respuestasarray['0']);
                         if (final_transcript == "1" || final_transcript == "uno") {
                             recognition.stop();
                             correcto = true;
-                            alert("No es correcto 1!");
+                            //alert("No es correcto 1!");
+                            var res = primero.attr('id');
+                            primero.addClass('seleccionada');
+                            enviarRespuesta(res, function(respuesta) {
+								//alert(respuesta);
+								//alert(respuesta[1]);
+					       		if (respuesta != res) { //INCORRECTA
+					       			//alert("respuesta incorrecta");
+					       			$('.seleccionada').addClass('btn-danger');
+					       			var ident = "#"+respuesta;
+					       			var correcta = $(ident);
+					       			//alert(correcta);
+					       			correcta.removeClass('btn-info');
+					       			correcta.addClass('btn-success');
+					       		};
+					       		if (respuesta == res) { //CORRECTA
+					       			//alert("respuesta correcta");
+					       			$('.seleccionada').removeClass('btn-info');
+					       			$('.seleccionada').addClass('btn-success');
+					       		};
+					       		setTimeout(function(){
+						            location.reload(true);
+						         },1500);
+					       		$(document).click(function() {
+								    location.reload(true);
+								});
+							});
+
                         };
                         if (final_transcript == "2" || final_transcript == "dos") {
                             recognition.stop();
                             correcto = true;
-                            alert("No es correcto 2!");
+                            //alert("No es correcto 2!");
+                            var res = segundo.attr('id');
+                            segundo.addClass('seleccionada');
+                            enviarRespuesta(res, function(respuesta) {
+								//alert(respuesta);
+								//alert(respuesta[1]);
+					       		if (respuesta != res) { //INCORRECTA
+					       			//alert("respuesta incorrecta");
+					       			$('.seleccionada').addClass('btn-danger');
+					       			var ident = "#"+respuesta;
+					       			var correcta = $(ident);
+					       			//alert(correcta);
+					       			correcta.removeClass('btn-info');
+					       			correcta.addClass('btn-success');
+					       		};
+					       		if (respuesta == res) { //CORRECTA
+					       			//alert("respuesta correcta");
+					       			$('.seleccionada').removeClass('btn-info');
+					       			$('.seleccionada').addClass('btn-success');
+					       		};
+					       		setTimeout(function(){
+						            location.reload(true);
+						         },1500);
+					       		$(document).click(function() {
+								    location.reload(true);
+								});
+							});
                         };
                         if (final_transcript == "3" || final_transcript == "tres") {
                             recognition.stop();
                             correcto = true;
-                            alert("Correcto!");
+                            //alert("Correcto!");
+                            var res = tercero.attr('id');
+                            tercero.addClass('seleccionada');
+                            enviarRespuesta(res, function(respuesta) {
+								//alert(respuesta);
+								//alert(respuesta[1]);
+					       		if (respuesta != res) { //INCORRECTA
+					       			//alert("respuesta incorrecta");
+					       			$('.seleccionada').addClass('btn-danger');
+					       			var ident = "#"+respuesta;
+					       			var correcta = $(ident);
+					       			//alert(correcta);
+					       			correcta.removeClass('btn-info');
+					       			correcta.addClass('btn-success');
+					       		};
+					       		if (respuesta == res) { //CORRECTA
+					       			//alert("respuesta correcta");
+					       			$('.seleccionada').removeClass('btn-info');
+					       			$('.seleccionada').addClass('btn-success');
+					       		};
+					       		setTimeout(function(){
+						            location.reload(true);
+						         },1500);
+					       		$(document).click(function() {
+								    location.reload(true);
+								});
+							});
                         };
                         if ((final_transcript == "4") || (final_transcript == "cuatro")) {
                             recognition.stop();
                             correcto = true;
-                            alert("No es correcto 4!");
+                            //alert("No es correcto 4!");
+                            var res = cuarto.attr('id');
+                            cuarto.addClass('seleccionada');
+                            enviarRespuesta(res, function(respuesta) {
+								//alert(respuesta);
+								//alert(respuesta[1]);
+					       		if (respuesta != res) { //INCORRECTA
+					       			//alert("respuesta incorrecta");
+					       			$('.seleccionada').addClass('btn-danger');
+					       			var ident = "#"+respuesta;
+					       			var correcta = $(ident);
+					       			//alert(correcta);
+					       			correcta.removeClass('btn-info');
+					       			correcta.addClass('btn-success');
+					       		};
+					       		if (respuesta == res) { //CORRECTA
+					       			//alert("respuesta correcta");
+					       			$('.seleccionada').removeClass('btn-info');
+					       			$('.seleccionada').addClass('btn-success');
+					       		};
+					       		setTimeout(function(){
+						            location.reload(true);
+						         },1500);
+					       		$(document).click(function() {
+								    location.reload(true);
+								});
+							});
                         };
                 };
 

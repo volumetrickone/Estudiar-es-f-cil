@@ -4,28 +4,31 @@ jQuery(document).ready(function($) {
 	$('.responder').on('click', function(event) {
 		event.preventDefault();
 		/* Act on the event */
-		var seleccionado = $(this).val();
+		var seleccionado = $(this).attr('id');
 		$(this).addClass('seleccionada');
 		var preg = $('#cuestionario').attr('name');
 		var res = $(this).attr('id');
-		alert(res);
+		//alert(res);
 
 		enviarRespuesta(res, function(respuesta) {
-			alert(respuesta);
+			//alert(respuesta);
 			//alert(respuesta[1]);
        		if (respuesta != seleccionado) { //INCORRECTA
-       			alert("respuesta incorrecta");
+       			//alert("respuesta incorrecta");
        			$('.seleccionada').addClass('btn-danger');
-       			var correcta = $("input[value='"+respuesta+"']");
-       			alert(correcta);
+       			var ident = "#"+respuesta;
+       			var correcta = $(ident);
+       			//alert(correcta);
+       			correcta.removeClass('btn-info');
        			correcta.addClass('btn-success');
        		};
        		if (respuesta == seleccionado) { //CORRECTA
-       			alert("respuesta correcta");
+       			//alert("respuesta correcta");
+       			$('.seleccionada').removeClass('btn-info');
        			$('.seleccionada').addClass('btn-success');
        		};
        		$(document).click(function() {
-			    location.reload(forceGet);
+			    location.reload(true);
 			});
 		});
 	});
@@ -59,7 +62,7 @@ jQuery(document).ready(function($) {
 
 function enviarRespuesta(resp,callback) {
 			$.ajax({
-		    url: '/cuestionario/cuestionario.php',
+		    url: '/cuestionario/revisando.php',
 		    type: 'post',
 		    data: {"respuesta": resp},
 		    success: function(response) { 
