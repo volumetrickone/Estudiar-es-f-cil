@@ -7,6 +7,7 @@ Además, hemos apostado por mejorar la integración de niños con problemas motr
 ###Objetivo:
 El objetivo es crear una plataforma inclusiva en la que los niños disfruten aprendiendo, de modo que estudien sin hacer un gran esfuerzo. 
 ### Características:
+Los profesores pueden crear grupos de alumnos (clases, cursos...) y crear cuestionarios asociados a los grupos que deseen. En cada cuestionario podran crear tantas preguntas como quieran con sus respectivas respuestas, y sus alumnos podrán utilizar luego los cuestionarios para estudiar. 
 Las preguntas se corrigen automáticamente y, gracias a un algoritmo que hemos diseñado, nos aseguramos que los niños acabaran el cuestionario cuando realmente hayan aprendido el temário. 
 Esto lo conseguimos dándole más importáncia a las preguntas falladas y a las pendientes de responder a la hora de escoger la siguiente pregunta que se le mostrará al alumno (aleatoriedad controlada).
 De este modo, las preguntas que vaya fallando se le repetirán con bastante frecuéncia, y así hasta que llegue a recordar la solución. No obstante, nunca se le preguntará dos veces seguidas la misma pregunta. 
